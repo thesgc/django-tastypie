@@ -8,10 +8,14 @@ try:
     from urllib.parse import unquote
 except ImportError:
     from urllib import unquote
+from django.core.exceptions import ImproperlyConfigured
 
-from django.contrib.gis.db.models import GeometryField
-from django.contrib.gis.geos import GEOSGeometry
-
+try:
+    from django.contrib.gis.db.models import GeometryField
+    from django.contrib.gis.geos import GEOSGeometry
+except ImportError, ImproperlyConfigured:
+    GeometryField = None
+    GEOSGeometry = None
 from tastypie.fields import ApiField, CharField
 from tastypie import resources
 
